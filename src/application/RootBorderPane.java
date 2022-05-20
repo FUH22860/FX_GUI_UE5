@@ -17,6 +17,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import model.TextException;
+import model.Textverbinder;
 
 public class RootBorderPane extends BorderPane {
 	
@@ -121,22 +123,27 @@ public class RootBorderPane extends BorderPane {
 	private void verbinden() {
 		String text1 = tfText1.getText();
 		String text2 = tfText2.getText();
-		String verbinder = ""; // Direct
+//		String verbinder = ""; // Direct
+		String ergebnis = "";
 		
-		if (rbLeerzeichen.isSelected()) {
-			verbinder = " "; // spacebar
-		}
+	try {
 		
-		if (rbLeerzeile.isSelected()) {
-			verbinder = "\n"; // NewLine
-		}
+			if (rbDirekt.isSelected()) {
+				ergebnis = Textverbinder.texteVerbindenDirekt(text1, text2);
+			}
 		
-		if (!text1.isEmpty() && !text2.isEmpty()) {
-			String ergebnis = text1 + verbinder + text2;
+			if (rbLeerzeichen.isSelected()) {
+				ergebnis = Textverbinder.texteVerbindenLeerZeichen(text1, text2);
+			}
 			
-			taErgebnis.setText(ergebnis); 
-			taErgebnis.setDisable(false);
-		} else {
+			if (rbLeerzeile.isSelected()) {
+				ergebnis = Textverbinder.texteVerbindenLeerZeile(text1, text2);
+			}
+			
+			if (!text1.isEmpty() && !text2.isEmpty()) {
+				taErgebnis.setText(ergebnis); 
+				taErgebnis.setDisable(false);
+			} else {
 			if (text1.isEmpty() && text2.isEmpty()) {
 				Main.showAlert(AlertType.ERROR, "Text1 fehlt\nText2 fehlt");
 			} else {
@@ -145,8 +152,11 @@ public class RootBorderPane extends BorderPane {
 				} else {
 					Main.showAlert(AlertType.ERROR, "Text2 fehlt");
 				}
+				}	
 			}
 			
+		} catch (TextException e) {
+			Main.showAlert(AlertType.ERROR, e.getMessage());
 		}
 	}
 	

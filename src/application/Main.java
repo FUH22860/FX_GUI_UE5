@@ -13,7 +13,7 @@ public class Main extends Application {
 			RootBorderPane root = new RootBorderPane();
 			Scene scene = new Scene(root, 700, 500);
 			primaryStage.setScene(scene);
-			primaryStage.setTitle("GUI-Uebung 4");
+			primaryStage.setTitle("GUI-Uebung 5");
 			primaryStage.show();
 		} catch (Exception e) {
 			showAlert(AlertType.ERROR, e.getMessage());
